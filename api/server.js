@@ -8,26 +8,25 @@ let games = [
 
 server.use(express.json());
 
-server.get('/', async (req, res) => {
-    res.status(200).json({ response: 'ready player one '})
-})
+// server.get('/', async (req, res) => {
+//     res.status(200).json({ response: 'ready player one '})
+// })
 
-server.get('/api/games', async (req, res) => {
-    const list = await games();
-    res.status(200).json(list);
-})
+// server.get('/api/games', async (req, res) => {
+//     res.status(200).json(games);
+// })
 
-server.post('/api/games', async (req, res) => {
-    const game = req.body;
+// server.post('/api/games', async (req, res) => {
+//     const game = req.body;
 
-    if (game.title) {
-        const ids = await games.insert(game)
-        res.status(201).json(ids);
-    }
-    else {
-        res.status(422).json({error: 'title and genre required'})
-    }
-})
+//     if (game.title) {
+//         const ids = await games.insert(game)
+//         res.status(201).json(ids);
+//     }
+//     else {
+//         res.status(422).json({error: 'title and genre required'})
+//     }
+// })
 
 
 const port = process.env.PORT || 9000;

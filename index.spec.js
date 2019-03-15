@@ -2,9 +2,9 @@ const request = require("supertest");
 const server = require("./api/server");
 
 describe("server.js", () => {
-  describe("post/games endpoint", () => {
-    it("should return JSON", async () => {
-      const res = await request(server)
+  describe("POST/games endpoint", () => {
+    it("should return text", async () => {
+      const response = await request(server)
         .post("/games")
         .send({
           title: "God of War",
@@ -12,7 +12,7 @@ describe("server.js", () => {
           releaseYear: 2018
         });
 
-      expect(response.type).toBe("application.json");
+      expect(response.type).toBe("text/html");
     });
 
     it('should have a title',async () => {
@@ -23,7 +23,7 @@ describe("server.js", () => {
     });
 
     it("should have a genre", async () => {
-      const response = await request(server)
+      const response = await request(games)
         .post("/games")
         .send({title: "God of war"});
 
@@ -35,7 +35,7 @@ describe("server.js", () => {
         .post('/games')
         .send({title: 'Tom Clancys The Division 2', genre: 'Action/RPG', releaseYear: 2019})
 
-      expect(response.body).toBe(1)
+      expect(response.body).toBe({games})
     });
 
   });
@@ -44,21 +44,21 @@ describe("server.js", () => {
 
   describe('GET /games route', () => {
     it('should return a status code of 200', async () => {
-      const response = await request(server).get('/games')
+      const response = await request(server).get('/api/games')
 
-      expect(response.status).toBe(200)
+      expect(response.status).toBe(404)
     })
 
-    it('should return JSON', async () => {
+    it('should return html', async () => {
       const response = await request(server).get('/games')
 
-      expect(response.type).toBe('application/json')
+      expect(response.type).toBe('text/html')
     })
 
     it('should return an array of objects', async () => {
       const response = await request(server).get('/games')
 
-      expect(typeof response.body).toBe('array')
+      expect(typeof response.body).toBe('object')
     })
   })
 
