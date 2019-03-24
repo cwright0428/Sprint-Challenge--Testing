@@ -13,6 +13,7 @@ module.exports = {
     seeds: {
       directory: '/data/migrations'
     },
+    useNullAsDefault:true,
   },
 
   staging: {
