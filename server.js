@@ -9,7 +9,7 @@ const server = express();
 server.use(express.json());
 
 server.get('/games', (req, res) => {
-    db.retrieve()
+    db.grab()
     .then(response => {
 
         res.status(200).json(response);
@@ -21,16 +21,26 @@ server.get('/games', (req, res) => {
     })
 });
 server.post('/games/add', (req, res) => {
-    db.add(req.body)
-        .then(response => {
-            console.log(response);
-            console.log('success');
-            res.status(201).json({msg: `${req.body} New game added!`})
+    const game = req.body
+    if(game.title && game.genre && game.releaseYear) {
+        db('games').insert(game)
+        .then(id => {
+          res.send(id).status(201)
         })
-        .catch(err => {
+        } else {
+          res.status(422).send('Must have title,genre, and release year')
+        }
 
-            res.status(500).json({error: 'You broke it dude'});
-        })
+    // db.add(req.body)
+    //     .then(response => {
+    //         console.log(response);
+    //         console.log('success');
+    //         res.status(201).json({msg: `${req.body} New game added!`})
+    //     })
+    //     .catch(err => {
+
+    //         res.status(500).json({error: 'You broke it dude'});
+    //     })
 });
 
 module.exports = server;
